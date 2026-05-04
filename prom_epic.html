@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hey. one question.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100;0,9..144,900;1,9..144,100;1,9..144,900&family=DM+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#f0b429;--gold2:#ffd966;--gold3:#ffe576;--amber:#b8720a;--dark:#05040b;
+  --card:#0b0a14;--cream:#fef6e0;--green:#183318;--green2:#2a5c2a;
+  --muted:#3a3020;--glow:rgba(240,180,41,0.18);
+}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--dark);display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;position:relative;overflow:hidden;
+}
+
+/* ── GRAIN ── */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.048;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px;mix-blend-mode:screen;
+}
+
+/* ── DEEP MESH ── */
+.mesh{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 65% 55% at 12% 18%,#f0b42912 0%,transparent 70%),
+    radial-gradient(ellipse 55% 65% at 88% 78%,#b8720a0a 0%,transparent 70%),
+    radial-gradient(ellipse 45% 45% at 50% 50%,#18331808 0%,transparent 70%),
+    radial-gradient(ellipse 35% 35% at 75% 20%,#f0b42906 0%,transparent 65%),
+    var(--dark);
+  animation:meshPulse 14s ease-in-out infinite alternate;
+}
+@keyframes meshPulse{from{filter:brightness(1)}to{filter:brightness(1.2)}}
+
+/* ── MOTES ── */
+.mote{position:fixed;pointer-events:none;z-index:1;border-radius:50%;background:var(--gold);animation:moteRise linear infinite;opacity:0;}
+@keyframes moteRise{0%{transform:translateY(105vh) translateX(0) scale(.5);opacity:0}8%{opacity:.9}92%{opacity:.25}100%{transform:translateY(-5vh) translateX(var(--mx)) scale(1);opacity:0}}
+
+/* ── SCANLINES ── */
+.scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,#00000008 2px,#00000008 4px);}
+
+/* ── VIGNETTE ── */
+.vignette{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse 85% 85% at 50% 50%,transparent 38%,#00000060 100%);}
+
+/* ══════════════════ CARD ══════════════════ */
+.card{
+  position:relative;z-index:10;width:min(480px,93vw);
+  background:var(--card);border-radius:40px;padding:56px 48px 52px;text-align:center;
+  box-shadow:0 0 0 1px #f0b42914,0 0 0 3px #00000070,0 100px 200px #00000099,
+    inset 0 1px 0 #ffffff0c,inset 0 -1px 0 #00000050,0 0 120px #f0b42906;
+  animation:cardReveal 1.2s cubic-bezier(.22,1,.36,1) .15s both;
+}
+@keyframes cardReveal{from{opacity:0;transform:translateY(80px) scale(.88) rotate(-1deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+
+/* spinning gold border */
+.card::before{
+  content:'';position:absolute;inset:-1.5px;border-radius:41.5px;z-index:-1;
+  background:conic-gradient(from var(--angle),#f0b42940,#b8720a20,#ffd96638,transparent 40%,#f0b42928,transparent 70%,#ffe57630);
+  animation:borderSpin 10s linear infinite;
+}
+@keyframes borderSpin{to{--angle:360deg}}
+
+/* inner glow pulse */
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:40px;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,#f0b42908 0%,transparent 60%);
+  animation:topGlow 5s ease-in-out infinite alternate;
+}
+@keyframes topGlow{from{opacity:.5}to{opacity:1}}
+
+/* ── FLOWER ── */
+.flower-stage{width:160px;height:185px;margin:0 auto 36px;position:relative;filter:drop-shadow(0 0 32px #f0b42940) drop-shadow(0 0 12px #f0b42920);}
+.main-flower{width:100%;height:100%;display:block;animation:flowerSway 8s ease-in-out infinite;transform-origin:50% 97%;}
+@keyframes flowerSway{0%,100%{transform:rotate(-6deg) translateY(0)}40%{transform:rotate(4deg) translateY(-4px)}70%{transform:rotate(-3deg) translateY(-2px)}}
+.petal{animation:petalPop 2.5s ease-in-out infinite alternate;}
+@keyframes petalPop{from{opacity:.78;filter:brightness(.9)}to{opacity:1;filter:brightness(1.1)}}
+
+/* pollen */
+.pollen{position:absolute;top:38%;left:50%;width:3px;height:3px;border-radius:50%;background:#ffd966;pointer-events:none;animation:pollenFloat var(--pd) var(--pdel) ease-out infinite;opacity:0;}
+@keyframes pollenFloat{0%{opacity:0;transform:translate(0,0) scale(1)}12%{opacity:1}100%{opacity:0;transform:translate(var(--px),var(--py)) scale(.15)}}
+
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:#1e1a0f;margin-bottom:20px;animation:slideUp .7s .65s both;}
+.question{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.3rem,7.5vw,3.2rem);line-height:1.06;color:var(--cream);margin-bottom:14px;animation:slideUp .8s .75s both;}
+.question em{font-style:italic;color:var(--gold);text-shadow:0 0 70px #f0b42968,0 0 140px #f0b42928;}
+.sub{font-size:11.5px;color:#222018;margin-bottom:46px;line-height:1.9;animation:slideUp .8s .9s both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BUTTONS ── */
+.btns{display:flex;flex-direction:column;gap:14px;animation:slideUp .8s 1.05s both;position:relative;z-index:2;}
+
+/* ARROWS */
+.arrow-wrap{position:absolute;pointer-events:none;opacity:0;transition:opacity .8s ease;z-index:20;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.arrow-wrap.show{opacity:1;}
+.arrow-left{right:calc(100% + 14px);top:30%;transform:translateY(-50%);}
+.arrow-right{left:calc(100% + 14px);top:30%;transform:translateY(-50%);}
+.arrow-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#f0b42990;white-space:nowrap;font-family:'DM Mono',monospace;}
+.arrow-bounce-l{animation:arrowBounceL .55s ease-in-out infinite alternate;}
+.arrow-bounce-r{animation:arrowBounceR .55s ease-in-out infinite alternate;}
+@keyframes arrowBounceL{from{transform:translateX(0)}to{transform:translateX(-10px)}}
+@keyframes arrowBounceR{from{transform:translateX(0)}to{transform:translateX(10px)}}
+
+/* YES button */
+.btn-yes{
+  font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;
+  padding:22px 36px;border-radius:100px;border:none;
+  background:linear-gradient(145deg,#ffe576 0%,#f0b429 35%,#d9961a 65%,#b8720a 100%);
+  color:#150900;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .28s,filter .28s,font-size .75s cubic-bezier(.34,1.56,.64,1),padding .75s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;
+  box-shadow:0 0 60px #f0b42955,0 14px 50px #b8720a45,inset 0 1px 0 #ffffff50,inset 0 -2px 0 #00000020;
+}
+.btn-yes::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(145deg,#fff8c0,#ffd966,#f0b429);opacity:0;transition:opacity .35s;}
+.btn-yes::after{content:'';position:absolute;inset:-2px;border-radius:inherit;background:conic-gradient(from var(--angle),#ffe57680,transparent 40%,#f0b42960,transparent 80%);animation:borderSpin 4s linear infinite;z-index:-1;}
+.btn-yes:hover{transform:translateY(-4px) scale(1.04);filter:brightness(1.1);box-shadow:0 0 100px #f0b42975,0 20px 70px #b8720a65,inset 0 1px 0 #ffffff60;}
+.btn-yes:hover::before{opacity:1}
+.btn-yes:active{transform:scale(.95)}
+.btn-yes-label{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:12px;pointer-events:none;}
+
+/* NO button */
+.btn-no{
+  font-family:'DM Mono',monospace;font-size:12px;padding:15px 28px;border-radius:100px;
+  border:1px solid #18140a;background:transparent;color:#201c10;cursor:pointer;
+  transition:all .6s ease,font-size .75s ease,opacity .75s ease,padding .75s ease;position:relative;z-index:2;
+}
+.btn-no:hover{border-color:#f0b42932;color:#3a3020;}
+.btn-no:active{transform:scale(.94);}
+
+/* ══════════ POPUP ══════════ */
+.popup-overlay{display:none;position:fixed;inset:0;z-index:500;align-items:center;justify-content:center;background:#00000075;backdrop-filter:blur(20px) saturate(.5);}
+.popup-overlay.show{display:flex;animation:overlayIn .3s ease both;}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.popup{
+  background:#0d0c18;border:1px solid #1c1810;border-radius:32px;padding:44px 40px 36px;
+  max-width:340px;width:90%;text-align:center;
+  animation:popBounce .5s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow:0 0 0 1px #f0b42914,0 80px 160px #00000099,0 0 60px #f0b42908;
+  position:relative;overflow:hidden;
+}
+.popup::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f0b42948,transparent);}
+.popup::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f0b42918,transparent);}
+@keyframes popBounce{from{transform:scale(.65) translateY(50px) rotate(-4deg);opacity:0}to{transform:scale(1) translateY(0) rotate(0);opacity:1}}
+.popup-emoji{display:flex;align-items:center;justify-content:center;margin-bottom:18px;animation:emojiDrop .6s .12s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes emojiDrop{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.popup-text{font-family:'Fraunces',serif;font-weight:900;font-size:1.7rem;color:var(--cream);line-height:1.15;margin-bottom:10px;}
+.popup-sub{font-size:11.5px;color:#2a2218;margin-bottom:30px;line-height:1.8;}
+.popup-ok{font-family:'DM Mono',monospace;font-size:11px;padding:12px 32px;border-radius:100px;border:1px solid #1c1810;background:transparent;color:#2a2218;cursor:pointer;transition:all .3s;letter-spacing:1px;}
+.popup-ok:hover{border-color:#f0b42940;color:var(--gold);box-shadow:0 0 20px #f0b42918;}
+
+/* ══════════════════════════════════════
+   CUTSCENES
+══════════════════════════════════════ */
+.cutscene{
+  display:none;position:fixed;inset:0;z-index:800;background:#000;
+  flex-direction:column;align-items:center;justify-content:center;overflow:hidden;
+}
+.cutscene.active{display:flex;}
+.cine-bar{position:absolute;left:0;right:0;height:76px;background:#000;z-index:10;transform:scaleY(0);}
+.cine-bar-top{top:0;transform-origin:top;animation:none;}
+.cine-bar-bot{bottom:0;transform-origin:bottom;animation:none;}
+.cutscene.active .cine-bar{animation:cineBarSlide .45s cubic-bezier(.22,1,.36,1) forwards;}
+.cine-bar-top{animation-delay:0s!important;}
+.cine-bar-bot{animation-delay:.04s!important;}
+@keyframes cineBarSlide{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* ── CS 1: DRAMATIC ZOOM ── */
+#cs1{background:radial-gradient(ellipse 90% 90% at 50% 50%,#120a00 0%,#000 100%);}
+#cs1 .cs-bg-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.cs1-ring{position:absolute;border-radius:50%;border:1px solid #f0b42912;animation:cs1RingExpand 3s ease-out forwards;}
+@keyframes cs1RingExpand{from{transform:scale(0);opacity:.8}to{transform:scale(4);opacity:0}}
+#cs1 .cs-flower{position:relative;z-index:5;animation:cs1FlowerIn 1.1s .15s cubic-bezier(.34,1.3,.64,1) both;}
+@keyframes cs1FlowerIn{from{transform:scale(4) rotate(30deg);opacity:0;filter:blur(30px)}to{transform:scale(1) rotate(0);opacity:1;filter:blur(0)}}
+#cs1 .cs-text{position:relative;z-index:5;margin-top:30px;text-align:center;}
+#cs1 .cs-title{font-family:'Fraunces',serif;font-weight:900;font-style:italic;font-size:clamp(2rem,6.5vw,3.2rem);color:var(--gold);text-shadow:0 0 80px #f0b42990;animation:csFadeUp .8s 1s both;letter-spacing:-.02em;}
+#cs1 .cs-sub{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#2a2010;margin-top:12px;animation:csFadeUp .7s 1.2s both;}
+#cs1 .cs-skip{position:absolute;bottom:100px;right:40px;z-index:20;font-size:9px;letter-spacing:3px;color:#1a1608;text-transform:uppercase;cursor:pointer;border:1px solid #1a1608;padding:8px 16px;border-radius:100px;font-family:'DM Mono',monospace;transition:all .3s;background:transparent;}
+#cs1 .cs-skip:hover{color:#f0b42960;border-color:#f0b42930;}
+@keyframes csFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CS 2: TYPEWRITER DIALOGUE ── */
+#cs2{background:linear-gradient(160deg,#060410 0%,#0a060a 50%,#030306 100%);}
+#cs2 .cs2-stage{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;}
+#cs2 .cs2-scene-label{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:#1a1428;margin-bottom:28px;animation:csFadeUp .6s .1s both;}
+#cs2 .flower-portrait{position:relative;margin-bottom:24px;opacity:0;transform:translateY(40px) scale(.85);transition:opacity .8s .2s,transform .9s .2s cubic-bezier(.34,1.2,.64,1);}
+#cs2 .flower-portrait.in{opacity:1;transform:translateY(0) scale(1);}
+#cs2 .portrait-glow{position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,#f0b42920 0%,transparent 70%);animation:portraitGlow 3s ease-in-out infinite alternate;}
+@keyframes portraitGlow{from{opacity:.5;transform:scale(.9)}to{opacity:1;transform:scale(1.05)}}
+#cs2 .dialogue-box{background:#0c0b1a;border:1px solid #1e1828;border-radius:20px;padding:28px 32px;max-width:360px;width:90%;position:relative;opacity:0;transform:translateY(24px);transition:opacity .6s .65s,transform .6s .65s cubic-bezier(.22,1,.36,1);}
+#cs2 .dialogue-box.in{opacity:1;transform:translateY(0);}
+#cs2 .dialogue-box::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);border-width:0 10px 10px;border-style:solid;border-color:transparent transparent #1e1828;}
+#cs2 .dialogue-box::after{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);border-width:0 9px 9px;border-style:solid;border-color:transparent transparent #0c0b1a;}
+#cs2 .dialogue-name{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:#f0b42970;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+#cs2 .dialogue-name::before,#cs2 .dialogue-name::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#f0b42930);}
+#cs2 .dialogue-name::after{background:linear-gradient(90deg,#f0b42930,transparent);}
+#cs2 .dialogue-text{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.25rem;line-height:1.6;color:var(--cream);min-height:2em;}
+#cs2 .type-cursor{display:inline-block;width:2px;height:1.1em;background:var(--gold);margin-left:3px;vertical-align:middle;animation:blink .55s step-end infinite;}
+@keyframes blink{50%{opacity:0}}
+#cs2 .cs-skip{position:absolute;bottom:100px;right:40px;z-index:20;font-size:9px;letter-spacing:3px;color:#1a1628;text-transform:uppercase;cursor:pointer;border:1px solid #1a1628;padding:8px 16px;border-radius:100px;font-family:'DM Mono',monospace;transition:all .3s;background:transparent;}
+#cs2 .cs-skip:hover{color:#f0b42960;border-color:#f0b42930;}
+
+/* ── CS 3: WORD CHAOS + PLEA ── */
+#cs3{background:#000;}
+#cs3 .cs3-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,#120800 0%,#000 70%);}
+.cs3-word{position:absolute;font-family:'Bebas Neue',sans-serif;text-transform:uppercase;color:var(--gold);pointer-events:none;letter-spacing:.05em;}
+#cs3 .plea-center{position:relative;z-index:5;text-align:center;padding:20px;}
+#cs3 .plea-eyebrow{font-size:9px;letter-spacing:6px;text-transform:uppercase;color:#2a2010;margin-bottom:16px;animation:csFadeUp .6s .1s both;}
+#cs3 .plea-big{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,7vw,4rem);line-height:1.05;animation:pleaIn .9s cubic-bezier(.34,1.3,.64,1) both;letter-spacing:-.03em;}
+#cs3 .plea-big span{color:var(--gold);text-shadow:0 0 100px #f0b42999,0 0 200px #f0b42940;}
+#cs3 .plea-arrows{display:flex;flex-direction:column;align-items:center;gap:0;margin-top:24px;animation:csFadeUp .8s .4s both;}
+#cs3 .down-arrow-row{display:flex;align-items:center;gap:20px;animation:downArrow .5s ease-in-out infinite alternate;}
+@keyframes downArrow{from{transform:translateY(0)}to{transform:translateY(12px)}}
+@keyframes pleaIn{from{opacity:0;transform:scale(.4) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+#cs3 .cs-skip{position:absolute;bottom:100px;right:40px;z-index:20;font-size:9px;letter-spacing:3px;color:#1a1608;text-transform:uppercase;cursor:pointer;border:1px solid #1a1608;padding:8px 16px;border-radius:100px;font-family:'DM Mono',monospace;transition:all .3s;background:transparent;}
+#cs3 .cs-skip:hover{color:#f0b42960;border-color:#f0b42930;}
+
+/* ── CS 4: SLOW BURN (8th no) ── */
+#cs4{background:#000;}
+#cs4 .cs4-inner{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;max-width:480px;padding:30px;}
+#cs4 .film-grain{position:absolute;inset:0;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px;mix-blend-mode:overlay;pointer-events:none;}
+#cs4 .cs4-light{position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:100%;background:linear-gradient(180deg,transparent 0%,#f0b42930 30%,#f0b42960 50%,#f0b42930 70%,transparent 100%);filter:blur(20px);animation:lightSweep 2s ease-in-out infinite alternate;}
+@keyframes lightSweep{from{opacity:.4;transform:translateX(-60%) scaleX(.5)}to{opacity:1;transform:translateX(-40%) scaleX(2)}}
+#cs4 .cs4-stamp{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,12vw,7rem);letter-spacing:-.02em;line-height:.9;color:#fff;opacity:0;animation:stampIn .7s .3s cubic-bezier(.34,1.56,.64,1) forwards;text-align:center;}
+#cs4 .cs4-stamp span{color:var(--gold);}
+@keyframes stampIn{0%{opacity:0;transform:scale(3.5);filter:blur(20px)}60%{opacity:1;filter:blur(0)}100%{opacity:1;transform:scale(1)}}
+#cs4 .cs4-line{width:80%;height:1px;background:linear-gradient(90deg,transparent,#f0b42940,transparent);margin:20px auto;opacity:0;animation:fadeIn .5s .85s forwards;}
+#cs4 .cs4-sub{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#2a2010;opacity:0;animation:csFadeUp .6s .9s both;text-align:center;}
+@keyframes fadeIn{to{opacity:1}}
+#cs4 .cs-skip{position:absolute;bottom:100px;right:40px;z-index:20;font-size:9px;letter-spacing:3px;color:#1a1608;text-transform:uppercase;cursor:pointer;border:1px solid #1a1608;padding:8px 16px;border-radius:100px;font-family:'DM Mono',monospace;transition:all .3s;background:transparent;}
+#cs4 .cs-skip:hover{color:#f0b42960;border-color:#f0b42930;}
+
+/* ══════════════════════════════════════
+   SUCCESS SCREEN
+══════════════════════════════════════ */
+.success-overlay{display:none;position:fixed;inset:0;z-index:1000;background:var(--dark);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;overflow:hidden;}
+.success-overlay.show{display:flex;animation:successIn .4s ease both;}
+@keyframes successIn{from{opacity:0}to{opacity:1}}
+
+/* layers */
+.s-grain{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;mix-blend-mode:overlay;}
+.s-scanline{position:absolute;inset:0;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,transparent,transparent 2px,#00000012 2px,#00000012 4px);}
+.s-vignette{position:absolute;inset:0;pointer-events:none;z-index:4;background:radial-gradient(ellipse 78% 78% at 50% 50%,transparent 35%,#00000085 100%);}
+.s-leak{position:absolute;top:-15%;left:-8%;width:60%;height:150%;background:linear-gradient(148deg,#f0b42908,transparent 55%);transform:skewX(-12deg);pointer-events:none;z-index:2;animation:leakPulse 8s ease-in-out infinite alternate;}
+.s-leak2{position:absolute;top:-15%;right:-8%;width:45%;height:150%;background:linear-gradient(210deg,#b8720a05,transparent 55%);transform:skewX(12deg);pointer-events:none;z-index:2;animation:leakPulse 11s ease-in-out infinite alternate;}
+@keyframes leakPulse{from{opacity:.4}to{opacity:1}}
+.s-glow{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,#f0b42918 0%,#b8720a0a 35%,transparent 60%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;animation:glowBreath 5s ease-in-out infinite alternate;}
+@keyframes glowBreath{from{transform:translate(-50%,-50%) scale(.8);opacity:.5}to{transform:translate(-50%,-50%) scale(1.3);opacity:1}}
+
+/* aura rings */
+.aura-ring{position:absolute;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;}
+.aura-ring.fire{animation:auraBlast 3.8s cubic-bezier(.05,.7,.3,1) forwards;}
+@keyframes auraBlast{0%{transform:translate(-50%,-50%) scale(0);opacity:.95}100%{transform:translate(-50%,-50%) scale(14);opacity:0}}
+
+/* orbit dots */
+.orbit-wrap{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;z-index:6;}
+.orbit-dot{position:absolute;border-radius:50%;width:var(--s);height:var(--s);background:var(--c);margin-left:calc(var(--s)/-2);margin-top:calc(var(--s)/-2);animation:spin var(--spd) linear infinite;transform-origin:0 calc(-1 * var(--r));}
+@keyframes spin{from{transform:rotate(var(--start))}to{transform:rotate(calc(var(--start) + 360deg))}}
+
+/* success content */
+.s-flower{opacity:0;transform:scale(.15) translateY(80px) rotate(-25deg);transition:all 1.1s cubic-bezier(.34,1.56,.64,1);margin-bottom:36px;position:relative;z-index:10;filter:drop-shadow(0 0 50px #f0b42980) drop-shadow(0 0 100px #f0b42940);}
+.s-flower.in{opacity:1;transform:scale(1) translateY(0) rotate(0);}
+.s-flower-svg{width:200px;height:235px;display:block;margin:0 auto;animation:sFlowerBob 6s ease-in-out infinite 1.4s;transform-origin:50% 96%;}
+@keyframes sFlowerBob{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(5deg) translateY(-8px)}}
+
+.s-content{position:relative;z-index:10;}
+.s-tag{display:block;font-size:9px;letter-spacing:8px;text-transform:uppercase;color:#1e1a0e;margin-bottom:22px;opacity:0;transform:translateY(12px);transition:all .9s .15s ease;}
+.s-tag.in{opacity:1;transform:translateY(0);}
+
+.s-line{display:block;overflow:hidden;line-height:1.02;}
+.s-inner{display:block;transform:translateY(120%) skewY(7deg);opacity:0;transition:transform 1.1s cubic-bezier(.22,1,.36,1),opacity .6s;}
+.s-inner.in{transform:translateY(0) skewY(0);opacity:1;}
+.s-word1{font-family:'Fraunces',serif;font-weight:100;font-style:italic;font-size:clamp(1.3rem,4.5vw,1.9rem);color:#3a3018;letter-spacing:.02em;}
+.s-word2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(3.2rem,11vw,5.8rem);color:var(--cream);letter-spacing:-.03em;}
+.s-word2 em{font-style:italic;color:var(--gold);text-shadow:0 0 100px #f0b42995,0 0 200px #f0b42940;}
+.s-word3{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(.95rem,3vw,1.35rem);color:#2e2a14;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.s-caption{display:block;font-size:9.5px;letter-spacing:5px;text-transform:uppercase;color:#141208;margin-top:30px;opacity:0;transition:opacity 2s 2.2s;}
+.s-caption.in{opacity:1;}
+
+/* sparkles */
+.sparkle{position:absolute;pointer-events:none;z-index:8;animation:sparkleBurst var(--dur) var(--del) ease-out both;}
+@keyframes sparkleBurst{0%{transform:translate(0,0) rotate(0) scale(0);opacity:0}20%{opacity:1;transform:translate(calc(var(--tx)*.25),calc(var(--ty)*.25)) rotate(var(--r)) scale(1.4)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) rotate(calc(var(--r)*2.5)) scale(0)}}
+
+/* confetti */
+.conf{position:fixed;pointer-events:none;z-index:1100;animation:confFall var(--dur) var(--del) ease-in forwards;}
+@keyframes confFall{0%{opacity:1;transform:translateY(-20px) translateX(0) rotate(0) scale(1)}100%{opacity:0;transform:translateY(110vh) translateX(var(--cx)) rotate(var(--cr)) scale(var(--cs))}}
+
+/* petals */
+.fpetal{position:fixed;pointer-events:none;z-index:1101;opacity:0;animation:petalDrop var(--pd) var(--pdel) ease-in forwards;}
+@keyframes petalDrop{0%{opacity:.95;transform:translateY(-20px) rotate(0) scale(1)}100%{opacity:0;transform:translateY(110vh) rotate(var(--pr)) translateX(var(--px)) scale(.4)}}
+</style>
+</head>
+<body>
+<div class="mesh"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div id="moteField"></div>
+
+<!-- ══════════ MAIN CARD ══════════ -->
+<div class="card" id="mainCard">
+
+  <!-- FLOWER -->
+  <div class="flower-stage" id="flowerStage">
+    <svg class="main-flower" viewBox="0 0 120 152" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- stem -->
+      <path d="M60 144 Q53 122 57 100" stroke="#183318" stroke-width="7.5" stroke-linecap="round"/>
+      <path d="M60 144 Q67 124 63 100" stroke="#2a5c2a" stroke-width="4" stroke-linecap="round" opacity=".4"/>
+      <!-- leaves -->
+      <path d="M57 120 Q36 110 28 96 Q39 100 57 116" fill="#183318"/>
+      <path d="M63 115 Q83 105 91 90 Q79 95 63 112" fill="#183318"/>
+      <path d="M58 110 Q42 105 36 96 Q45 99 58 108" fill="#2a5c2a" opacity=".45"/>
+      <!-- outer petals -->
+      <g transform="translate(60,62)">
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(0)" style="animation-delay:0s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(25.7)" style="animation-delay:.1s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffe080" transform="rotate(51.4)" style="animation-delay:.2s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(77.1)" style="animation-delay:.3s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#e8a010" transform="rotate(102.8)" style="animation-delay:.4s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(128.5)" style="animation-delay:.5s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(154.2)" style="animation-delay:.6s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffe080" transform="rotate(179.9)" style="animation-delay:.7s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#e8a010" transform="rotate(205.6)" style="animation-delay:.8s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(231.3)" style="animation-delay:.9s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(257)" style="animation-delay:1s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#e8a010" transform="rotate(282.7)" style="animation-delay:1.1s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(308.4)" style="animation-delay:1.2s"/>
+        <ellipse class="petal" cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(334.1)" style="animation-delay:1.3s"/>
+      </g>
+      <!-- inner petals -->
+      <g transform="translate(60,62)" opacity=".58">
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(12.8)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(38.5)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(64.2)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(89.9)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(115.6)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(141.3)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(167)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(192.7)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(218.4)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(244.1)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(269.8)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(295.5)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#ffe576" transform="rotate(321.2)"/>
+        <ellipse cx="0" cy="-22" rx="5.5" ry="12.5" fill="#b8720a" transform="rotate(346.9)"/>
+      </g>
+      <!-- seed head -->
+      <circle cx="60" cy="62" r="19" fill="#180a00"/>
+      <circle cx="60" cy="62" r="15" fill="#0e0500"/>
+      <circle cx="60" cy="53" r="2.3" fill="#3a1e05" opacity=".9"/><circle cx="67" cy="55.5" r="2.3" fill="#4a2808" opacity=".85"/>
+      <circle cx="70" cy="62" r="2.3" fill="#3a1e05" opacity=".9"/><circle cx="67" cy="68.5" r="2.3" fill="#4a2808" opacity=".85"/>
+      <circle cx="60" cy="72" r="2.3" fill="#3a1e05" opacity=".9"/><circle cx="53" cy="68.5" r="2.3" fill="#4a2808" opacity=".85"/>
+      <circle cx="50" cy="62" r="2.3" fill="#3a1e05" opacity=".9"/><circle cx="53" cy="55.5" r="2.3" fill="#4a2808" opacity=".85"/>
+      <circle cx="60" cy="62" r="1.9" fill="#08020a"/>
+      <!-- shine -->
+      <ellipse cx="52" cy="55" rx="3.5" ry="1.8" fill="white" opacity=".055" transform="rotate(-30 52 55)"/>
+    </svg>
+  </div>
+
+  <p class="eyebrow">— a sincere question from a nervous person —</p>
+  <h1 class="question">will you go to<br><em>prom</em> with me?</h1>
+  <p class="sub">no pressure whatsoever.<br><span style="color:#141008;">(there is so much pressure.)</span></p>
+
+  <div class="btns" id="btnsWrap">
+
+    <!-- LEFT ARROW (shows at 7+ no's) -->
+    <div class="arrow-wrap arrow-left" id="arrowL">
+      <div class="arrow-bounce-l">
+        <svg width="52" height="52" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" fill="#f0b42918" stroke="#f0b42948" stroke-width="1.5"/>
+          <circle cx="28" cy="28" r="26" stroke="#f0b42920" stroke-width="8" opacity=".25"/>
+          <path d="M38 28 L16 28" stroke="#f0b429" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M25 18 L14 28 L25 38" stroke="#f0b429" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="arrow-label">press&nbsp;this</div>
+    </div>
+
+    <!-- YES -->
+    <button class="btn-yes" id="btnYes" onclick="sayYes()">
+      <span class="btn-yes-label">
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+          <g transform="translate(20,20)">
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(0)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(45)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(90)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(135)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(225)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(270)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(315)"/>
+          </g>
+          <circle cx="20" cy="20" r="7.5" fill="#1a0800"/><circle cx="20" cy="20" r="5.5" fill="#0e0500"/>
+          <circle cx="18.5" cy="18.5" r="1.3" fill="#3a1e05"/><circle cx="21.5" cy="19.5" r="1.3" fill="#4a2808"/><circle cx="21" cy="22" r="1.3" fill="#3a1e05"/>
+        </svg>
+        yes, obviously
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+          <g transform="translate(20,20)">
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(0)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(45)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(90)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(135)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(225)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#f0b429" transform="rotate(270)"/>
+            <ellipse cx="0" cy="-13" rx="3.5" ry="7" fill="#ffd966" transform="rotate(315)"/>
+          </g>
+          <circle cx="20" cy="20" r="7.5" fill="#1a0800"/><circle cx="20" cy="20" r="5.5" fill="#0e0500"/>
+          <circle cx="18.5" cy="18.5" r="1.3" fill="#3a1e05"/><circle cx="21.5" cy="19.5" r="1.3" fill="#4a2808"/><circle cx="21" cy="22" r="1.3" fill="#3a1e05"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- RIGHT ARROW (shows at 7+ no's) -->
+    <div class="arrow-wrap arrow-right" id="arrowR">
+      <div class="arrow-bounce-r">
+        <svg width="52" height="52" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" fill="#f0b42918" stroke="#f0b42948" stroke-width="1.5"/>
+          <circle cx="28" cy="28" r="26" stroke="#f0b42920" stroke-width="8" opacity=".25"/>
+          <path d="M18 28 L40 28" stroke="#f0b429" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M31 18 L42 28 L31 38" stroke="#f0b429" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="arrow-label">press&nbsp;this</div>
+    </div>
+
+    <!-- NO -->
+    <button class="btn-no" id="btnNo" onclick="sayNo()">nah i'm good</button>
+  </div>
+</div>
+
+<!-- ══════════ POPUP ══════════ -->
+<div class="popup-overlay" id="popupOverlay" onclick="if(event.target===this)closePopup()">
+  <div class="popup">
+    <div class="popup-emoji" id="popupEmoji"></div>
+    <p class="popup-text" id="popupText"></p>
+    <p class="popup-sub" id="popupSub"></p>
+    <button class="popup-ok" onclick="closePopup()">ok ok, go back</button>
+  </div>
+</div>
+
+<!-- ══════════ CUTSCENE 1: Dramatic Zoom (4th No) ══════════ -->
+<div class="cutscene" id="cs1">
+  <div class="cine-bar cine-bar-top"></div>
+  <div class="cine-bar cine-bar-bot"></div>
+  <div class="cs-bg-rings" id="cs1Rings"></div>
+  <div class="cs-flower" style="position:relative;z-index:5;">
+    <svg width="160" height="185" viewBox="0 0 120 152" fill="none">
+      <path d="M60 144 Q53 122 57 100" stroke="#183318" stroke-width="7.5" stroke-linecap="round"/>
+      <path d="M57 120 Q36 110 28 96 Q39 100 57 116" fill="#183318"/>
+      <path d="M63 115 Q83 105 91 90 Q79 95 63 112" fill="#183318"/>
+      <g transform="translate(60,62)">
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(0)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(51.4)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(102.8)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#e8a010" transform="rotate(154.2)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(205.6)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#ffd966" transform="rotate(257)"/>
+        <ellipse cx="0" cy="-34" rx="8.5" ry="20" fill="#f0b429" transform="rotate(308.4)"/>
+      </g>
+      <circle cx="60" cy="62" r="19" fill="#180a00"/><circle cx="60" cy="62" r="15" fill="#0e0500"/>
+      <!-- expression: sad face -->
+      <path d="M53 60 Q55 57 57 60" stroke="#f0b42990" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M63 60 Q65 57 67 60" stroke="#f0b42990" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M55 69 Q60 65 65 69" stroke="#f0b42980" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <ellipse cx="54" cy="65" rx="1.2" ry="2.2" fill="#7ecfff" opacity=".7"/>
+    </svg>
+  </div>
+  <div class="cs-text" style="position:relative;z-index:5;margin-top:28px;text-align:center;">
+    <div class="cs-title" style="font-family:'Fraunces',serif;font-weight:900;font-style:italic;font-size:clamp(2rem,6.5vw,3.2rem);color:var(--gold);text-shadow:0 0 80px #f0b42990;animation:csFadeUp .8s 1s both;letter-spacing:-.02em;">wait, hold on.</div>
+    <div class="cs-sub" style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#2a2010;margin-top:14px;animation:csFadeUp .7s 1.2s both;">let me say something real quick</div>
+  </div>
+  <button class="cs-skip" onclick="skipCutscene('cs1')">skip →</button>
+</div>
+
+<!-- ══════════ CUTSCENE 2: Typewriter (6th No) ══════════ -->
+<div class="cutscene" id="cs2">
+  <div class="cine-bar cine-bar-top"></div>
+  <div class="cine-bar cine-bar-bot"></div>
+  <div class="cs2-stage">
+    <div class="cs2-scene-label">— scene ii —</div>
+    <div class="flower-portrait" id="cs2Portrait">
+      <div class="portrait-glow"></div>
+      <svg width="110" height="130" viewBox="0 0 120 152" fill="none">
+        <path d="M60 144 Q53 122 57 100" stroke="#183318" stroke-width="7.5" stroke-linecap="round"/>
+        <path d="M57 120 Q36 110 28 96 Q39 100 57 116" fill="#183318"/>
+        <path d="M63 115 Q83 105 91 90 Q79 95 63 112" fill="#183318"/>
+        <g transform="translate(60,62)">
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#f0b42968" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#ffd96660" transform="rotate(51.4)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#f0b42968" transform="rotate(102.8)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#e8a01060" transform="rotate(154.2)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#f0b42968" transform="rotate(205.6)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#ffd96660" transform="rotate(257)"/>
+          <ellipse cx="0" cy="-30" rx="7.5" ry="17" fill="#f0b42968" transform="rotate(308.4)"/>
+        </g>
+        <circle cx="60" cy="62" r="19" fill="#180a00"/><circle cx="60" cy="62" r="15" fill="#0e0500"/>
+        <path d="M53 60 Q55 57 57 60" stroke="#f0b42990" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M63 60 Q65 57 67 60" stroke="#f0b42990" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M55 67 Q60 64 65 67" stroke="#f0b42980" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="53" cy="64" rx="1.1" ry="2" fill="#7ecfff" opacity=".75"/>
+      </svg>
+    </div>
+    <div class="dialogue-box" id="cs2Box">
+      <div class="dialogue-name">sunflower boy</div>
+      <div class="dialogue-text" id="cs2Text"></div><span class="type-cursor"></span>
+    </div>
+  </div>
+  <button class="cs-skip" onclick="skipCutscene('cs2')">skip →</button>
+</div>
+
+<!-- ══════════ CUTSCENE 3: Word Chaos + Plea (8th No) ══════════ -->
+<div class="cutscene" id="cs3">
+  <div class="cine-bar cine-bar-top"></div>
+  <div class="cine-bar cine-bar-bot"></div>
+  <div class="cs3-bg"></div>
+  <div id="cs3Words" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;"></div>
+  <div class="plea-center" id="cs3Center" style="opacity:0;transition:opacity .6s .2s;">
+    <div class="plea-eyebrow">— this is getting embarrassing —</div>
+    <div class="plea-big">ok seriously.<br>just press <span>yes.</span></div>
+    <div class="plea-arrows">
+      <div class="down-arrow-row">
+        <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 4 L20 34" stroke="#f0b429" stroke-width="4" stroke-linecap="round"/><path d="M9 23 L20 34 L31 23" stroke="#f0b429" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" fill="#f0b42918" stroke="#f0b42945" stroke-width="1.5"/><circle cx="32" cy="32" r="30" stroke="#f0b42925" stroke-width="10" opacity=".2"/><path d="M32 14 L32 48" stroke="#f0b429" stroke-width="5" stroke-linecap="round"/><path d="M19 36 L32 49 L45 36" stroke="#f0b429" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><path d="M20 4 L20 34" stroke="#f0b429" stroke-width="4" stroke-linecap="round"/><path d="M9 23 L20 34 L31 23" stroke="#f0b429" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </div>
+  <button class="cs-skip" onclick="skipCutscene('cs3')">skip →</button>
+</div>
+
+<!-- ══════════ CUTSCENE 4: Slow Burn (10th No) ══════════ -->
+<div class="cutscene" id="cs4">
+  <div class="cine-bar cine-bar-top"></div>
+  <div class="cine-bar cine-bar-bot"></div>
+  <div class="film-grain"></div>
+  <div class="cs4-light"></div>
+  <div class="cs4-inner">
+    <div class="cs4-stamp"><span>i built</span><br>this website<br><span>for you.</span></div>
+    <div class="cs4-line"></div>
+    <div class="cs4-sub">the sunflower has been swaying this whole time</div>
+  </div>
+  <button class="cs-skip" onclick="skipCutscene('cs4')">skip →</button>
+</div>
+
+<!-- ══════════ SUCCESS ══════════ -->
+<div class="success-overlay" id="success">
+  <div class="s-grain"></div>
+  <div class="s-scanline"></div>
+  <div class="s-vignette"></div>
+  <div class="s-leak"></div>
+  <div class="s-leak2"></div>
+  <div class="s-glow"></div>
+  <div id="auraContainer"></div>
+  <div class="orbit-wrap" id="orbitWrap"></div>
+  <div id="sparkleField" style="position:absolute;inset:0;pointer-events:none;z-index:8;overflow:hidden;"></div>
+
+  <!-- Big beautiful success flower -->
+  <div class="s-flower" id="sFlower">
+    <svg class="s-flower-svg" viewBox="0 0 120 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 145 Q52 124 57 100" stroke="#183318" stroke-width="8.5" stroke-linecap="round"/>
+      <path d="M60 145 Q68 126 63 100" stroke="#2a5c2a" stroke-width="5" stroke-linecap="round" opacity=".4"/>
+      <path d="M57 122 Q34 110 26 95 Q37 99 57 118" fill="#183318"/>
+      <path d="M63 116 Q84 105 92 89 Q80 94 63 113" fill="#183318"/>
+      <path d="M58 112 Q40 106 34 97 Q43 100 58 110" fill="#2a5c2a" opacity=".4"/>
+      <g transform="translate(60,62)">
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#f0b429" transform="rotate(0)" style="animation-delay:0s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffd966" transform="rotate(25.7)" style="animation-delay:.1s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffe080" transform="rotate(51.4)" style="animation-delay:.2s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#f0b429" transform="rotate(77.1)" style="animation-delay:.3s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#e8a010" transform="rotate(102.8)" style="animation-delay:.4s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffd966" transform="rotate(128.5)" style="animation-delay:.5s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#f0b429" transform="rotate(154.2)" style="animation-delay:.6s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffe080" transform="rotate(179.9)" style="animation-delay:.7s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#e8a010" transform="rotate(205.6)" style="animation-delay:.8s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffd966" transform="rotate(231.3)" style="animation-delay:.9s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#f0b429" transform="rotate(257)" style="animation-delay:1s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#e8a010" transform="rotate(282.7)" style="animation-delay:1.1s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#ffd966" transform="rotate(308.4)" style="animation-delay:1.2s"/>
+        <ellipse class="petal" cx="0" cy="-37" rx="9.5" ry="22" fill="#f0b429" transform="rotate(334.1)" style="animation-delay:1.3s"/>
+      </g>
+      <g transform="translate(60,62)" opacity=".55">
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(12.8)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(38.5)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(64.2)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(89.9)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(115.6)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(141.3)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(167)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(192.7)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(218.4)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(244.1)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(269.8)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(295.5)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#ffe576" transform="rotate(321.2)"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="14" fill="#b8720a" transform="rotate(346.9)"/>
+      </g>
+      <circle cx="60" cy="62" r="21" fill="#180a00"/>
+      <circle cx="60" cy="62" r="16.5" fill="#0e0500"/>
+      <circle cx="60" cy="52.5" r="2.6" fill="#3a1e05" opacity=".9"/>
+      <circle cx="67.5" cy="55" r="2.6" fill="#4a2808" opacity=".85"/>
+      <circle cx="71" cy="62" r="2.6" fill="#3a1e05" opacity=".9"/>
+      <circle cx="67.5" cy="69" r="2.6" fill="#4a2808" opacity=".85"/>
+      <circle cx="60" cy="72.5" r="2.6" fill="#3a1e05" opacity=".9"/>
+      <circle cx="52.5" cy="69" r="2.6" fill="#4a2808" opacity=".85"/>
+      <circle cx="49" cy="62" r="2.6" fill="#3a1e05" opacity=".9"/>
+      <circle cx="52.5" cy="55" r="2.6" fill="#4a2808" opacity=".85"/>
+      <circle cx="60" cy="62" r="2" fill="#08020a"/>
+      <!-- happy eyes -->
+      <path d="M54 58 Q56 55 58 58" stroke="#f0b42985" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M62 58 Q64 55 66 58" stroke="#f0b42985" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <!-- big smile -->
+      <path d="M53 66 Q60 72 67 66" stroke="#f0b42990" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- cheeks -->
+      <ellipse cx="51" cy="66" rx="4.5" ry="2.5" fill="#ff8080" opacity=".2"/>
+      <ellipse cx="69" cy="66" rx="4.5" ry="2.5" fill="#ff8080" opacity=".2"/>
+      <!-- shine -->
+      <ellipse cx="51" cy="55" rx="4" ry="2" fill="white" opacity=".055" transform="rotate(-30 51 55)"/>
+    </svg>
+  </div>
+
+  <div class="s-content">
+    <span class="s-tag" id="sTag">✦ &nbsp; sunflower szn &nbsp; ✦</span>
+    <span class="s-line"><span class="s-inner s-word1" id="sl0">wait—</span></span>
+    <span class="s-line"><span class="s-inner s-word2" id="sl1">she said<br><em>yes.</em></span></span>
+    <span class="s-line" style="margin-top:12px;"><span class="s-inner s-word3" id="sl2">
+      <svg width="18" height="18" viewBox="0 0 40 40" fill="none" style="flex-shrink:0">
+        <circle cx="20" cy="20" r="18" fill="#ffd966"/>
+        <path d="M12 15 Q14 12 16 15" stroke="#1a0e00" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".8"/>
+        <path d="M24 15 Q26 12 28 15" stroke="#1a0e00" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".8"/>
+        <path d="M13 25 Q20 30 27 25" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" fill="none" opacity=".8"/>
+        <ellipse cx="13" cy="23" rx="1.4" ry="2.8" fill="#7ecfff" opacity=".8"/>
+        <ellipse cx="27" cy="23" rx="1.4" ry="2.8" fill="#7ecfff" opacity=".8"/>
+        <ellipse cx="9" cy="20" rx="4" ry="3" fill="#ff9999" opacity=".25"/>
+        <ellipse cx="31" cy="20" rx="4" ry="3" fill="#ff9999" opacity=".25"/>
+      </svg>
+      i actually cannot believe this rn
+    </span></span>
+    <span class="s-caption" id="sCaption">prom is going to go crazy &nbsp;✦&nbsp; i called it</span>
+  </div>
+</div>
+
+<script>
+/* ═══════════════ MOTES ═══════════════ */
+(()=>{
+  const f=document.getElementById('moteField');
+  for(let i=0;i<50;i++){
+    const m=document.createElement('div');m.className='mote';
+    const sz=.8+Math.random()*3.5;
+    m.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;`;
+    m.style.setProperty('--mx',(Math.random()*120-60)+'px');
+    const dur=9+Math.random()*22;
+    m.style.animationDuration=dur+'s';
+    m.style.animationDelay=-(Math.random()*dur)+'s';
+    f.appendChild(m);
+  }
+})();
+
+/* ═══════════════ POLLEN ═══════════════ */
+(()=>{
+  const stage=document.getElementById('flowerStage');
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');p.className='pollen';
+    const a=Math.random()*Math.PI*2,d=38+Math.random()*60;
+    p.style.setProperty('--px',Math.cos(a)*d+'px');
+    p.style.setProperty('--py',(Math.sin(a)*d-30)+'px');
+    p.style.setProperty('--pd',(2.2+Math.random()*3.5)+'s');
+    p.style.setProperty('--pdel',(i*.65+Math.random())+'s');
+    stage.appendChild(p);
+  }
+})();
+
+/* ═══════════════ CUSTOM SVG EMOJIS ═══════════════ */
+const E={
+  skull:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <ellipse cx="40" cy="36" rx="27" ry="26" fill="#e8e0cc"/>
+    <ellipse cx="28" cy="33" rx="8.5" ry="9.5" fill="#0e0b14"/>
+    <ellipse cx="52" cy="33" rx="8.5" ry="9.5" fill="#0e0b14"/>
+    <line x1="23" y1="29" x2="33" y2="37" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="33" y1="29" x2="23" y2="37" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="47" y1="29" x2="57" y2="37" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="57" y1="29" x2="47" y2="37" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M36 44 L40 52 L44 44" stroke="#0e0b14" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+    <rect x="26" y="57" width="28" height="11" rx="3.5" fill="#e8e0cc"/>
+    <line x1="33" y1="57" x2="33" y2="68" stroke="#0e0b14" stroke-width="1.5" opacity=".4"/>
+    <line x1="40" y1="57" x2="40" y2="68" stroke="#0e0b14" stroke-width="1.5" opacity=".4"/>
+    <line x1="47" y1="57" x2="47" y2="68" stroke="#0e0b14" stroke-width="1.5" opacity=".4"/>
+    <ellipse cx="40" cy="69" rx="22" ry="4.5" fill="black" opacity=".1"/>
+  </svg>`,
+
+  melt:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <path d="M40 6 C63 6 70 22 70 37 C70 52 59 66 50 70 Q44 75 37 76 Q30 80 26 80 Q18 80 18 73 Q18 68 26 66 Q17 62 14 51 C10 40 17 6 40 6Z" fill="#ffd966"/>
+    <ellipse cx="29" cy="32" rx="5.5" ry="6.5" fill="#1a0e00" opacity=".85"/>
+    <ellipse cx="51" cy="32" rx="5.5" ry="6.5" fill="#1a0e00" opacity=".85"/>
+    <ellipse cx="29" cy="36" rx="4.5" ry="5.5" fill="#1a0e00" opacity=".55"/>
+    <circle cx="31" cy="34" r="1.8" fill="white" opacity=".55"/>
+    <circle cx="53" cy="30" r="1.8" fill="white" opacity=".55"/>
+    <path d="M32 50 Q40 44 48 50" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
+    <path d="M22 16 Q28 12 34 16" stroke="#e8a010" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".6"/>
+  </svg>`,
+
+  cry:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="40" r="33" fill="#ffd966"/>
+    <ellipse cx="28" cy="36" rx="6" ry="6.5" fill="#1a0e00" opacity=".85"/>
+    <ellipse cx="52" cy="36" rx="6" ry="6.5" fill="#1a0e00" opacity=".85"/>
+    <circle cx="30" cy="34" r="2" fill="white" opacity=".5"/>
+    <circle cx="54" cy="34" r="2" fill="white" opacity=".5"/>
+    <path d="M30 52 Q40 58 50 52" stroke="#1a0e00" stroke-width="2.5" stroke-linecap="round" fill="#e8a010" opacity=".9"/>
+    <path d="M21 35 Q12 30 10 23" stroke="#7ecfff" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <ellipse cx="9" cy="22" rx="2.5" ry="3.5" fill="#7ecfff" opacity=".9"/>
+    <path d="M59 35 Q68 30 70 23" stroke="#7ecfff" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <ellipse cx="71" cy="22" rx="2.5" ry="3.5" fill="#7ecfff" opacity=".9"/>
+    <path d="M26 28 Q28 24 30 28" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
+    <path d="M50 28 Q52 24 54 28" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
+  </svg>`,
+
+  sfcry:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <g transform="translate(40,36)">
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#f0b429" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#ffd966" transform="rotate(45)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#f0b429" transform="rotate(90)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#e8a010" transform="rotate(135)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#f0b429" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#ffd966" transform="rotate(225)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#f0b429" transform="rotate(270)"/>
+      <ellipse cx="0" cy="-20" rx="5.5" ry="11" fill="#e8a010" transform="rotate(315)"/>
+    </g>
+    <circle cx="40" cy="36" r="13" fill="#180a00"/><circle cx="40" cy="36" r="10" fill="#0e0500"/>
+    <path d="M34 33 Q36 30 38 33" stroke="#f0b42980" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M42 33 Q44 30 46 33" stroke="#f0b42980" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M35 40 Q40 37 45 40" stroke="#f0b42980" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="35" cy="38" rx="1.2" ry="2.3" fill="#7ecfff" opacity=".8"/>
+    <ellipse cx="45" cy="38" rx="1.2" ry="2.3" fill="#7ecfff" opacity=".8"/>
+    <path d="M40 76 Q37 62 39 49" stroke="#183318" stroke-width="5" stroke-linecap="round"/>
+  </svg>`,
+
+  plead:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="40" r="33" fill="#ffd966"/>
+    <ellipse cx="27" cy="37" rx="9" ry="11" fill="#1a0e00" opacity=".9"/>
+    <ellipse cx="53" cy="37" rx="9" ry="11" fill="#1a0e00" opacity=".9"/>
+    <circle cx="24" cy="33" r="4" fill="white" opacity=".6"/>
+    <circle cx="50" cy="33" r="4" fill="white" opacity=".6"/>
+    <ellipse cx="19" cy="48" rx="3.5" ry="5.5" fill="#7ecfff" opacity=".7"/>
+    <ellipse cx="61" cy="48" rx="3.5" ry="5.5" fill="#7ecfff" opacity=".7"/>
+    <path d="M30 57 Q40 53 50 57" stroke="#1a0e00" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".8"/>
+    <ellipse cx="16" cy="48" rx="7" ry="4" fill="#ff9999" opacity=".28"/>
+    <ellipse cx="64" cy="48" rx="7" ry="4" fill="#ff9999" opacity=".28"/>
+    <path d="M24 27 Q27 23 30 27" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" opacity=".7" fill="none"/>
+    <path d="M50 27 Q53 23 56 27" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" opacity=".7" fill="none"/>
+  </svg>`,
+
+  facepalm:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="38" r="29" fill="#ffd966"/>
+    <rect x="18" y="30" width="44" height="26" rx="9" fill="#f0b429" stroke="#e8a010" stroke-width="1.5"/>
+    <rect x="20" y="18" width="8" height="20" rx="4" fill="#f0b429" stroke="#e8a010" stroke-width="1"/>
+    <rect x="30" y="15" width="8" height="22" rx="4" fill="#f0b429" stroke="#e8a010" stroke-width="1"/>
+    <rect x="40" y="16" width="8" height="21" rx="4" fill="#f0b429" stroke="#e8a010" stroke-width="1"/>
+    <rect x="50" y="21" width="8" height="18" rx="4" fill="#f0b429" stroke="#e8a010" stroke-width="1"/>
+    <ellipse cx="40" cy="30" rx="6" ry="5" fill="#1a0e00" opacity=".8"/>
+    <circle cx="37.5" cy="28.5" r="1.8" fill="white" opacity=".5"/>
+  </svg>`,
+
+  shrug:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="30" r="21" fill="#ffd966"/>
+    <ellipse cx="33" cy="29" rx="3.8" ry="4.5" fill="#1a0e00" opacity=".85"/>
+    <ellipse cx="47" cy="29" rx="3.8" ry="4.5" fill="#1a0e00" opacity=".85"/>
+    <path d="M34 38 Q40 36 46 38" stroke="#1a0e00" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
+    <rect x="29" y="51" width="22" height="22" rx="6" fill="#f0b429"/>
+    <path d="M29 57 Q15 48 11 39" stroke="#f0b429" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="10" cy="37" r="6" fill="#f0b429"/>
+    <path d="M51 57 Q65 48 69 39" stroke="#f0b429" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="70" cy="37" r="6" fill="#f0b429"/>
+    <path d="M26 28 Q28.5 25 31 28" stroke="#1a0e00" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".6"/>
+    <path d="M49 28 Q51.5 25 54 28" stroke="#1a0e00" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".6"/>
+  </svg>`,
+
+  rage:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="40" r="33" fill="#cc2200"/>
+    <path d="M22 24 L37 32" stroke="#1a0800" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M43 32 L58 24" stroke="#1a0800" stroke-width="4.5" stroke-linecap="round"/>
+    <ellipse cx="29" cy="37" rx="5.5" ry="6" fill="#1a0800"/>
+    <ellipse cx="51" cy="37" rx="5.5" ry="6" fill="#1a0800"/>
+    <circle cx="27.5" cy="35" r="2" fill="white" opacity=".5"/>
+    <circle cx="49.5" cy="35" r="2" fill="white" opacity=".5"/>
+    <rect x="24" y="51" width="32" height="12" rx="5" fill="#fff" opacity=".9"/>
+    <line x1="31" y1="51" x2="31" y2="63" stroke="#1a0800" stroke-width="1.5" opacity=".5"/>
+    <line x1="38" y1="51" x2="38" y2="63" stroke="#1a0800" stroke-width="1.5" opacity=".5"/>
+    <line x1="45" y1="51" x2="45" y2="63" stroke="#1a0800" stroke-width="1.5" opacity=".5"/>
+    <path d="M29 18 Q32 13 35 18 Q33 22 29 18Z" fill="#bb1100" stroke="#1a0800" stroke-width=".5"/>
+    <path d="M45 18 Q48 13 51 18 Q49 22 45 18Z" fill="#bb1100" stroke="#1a0800" stroke-width=".5"/>
+    <path d="M10 34 Q6 28 10 22 Q14 26 10 34Z" fill="#ff3300" opacity=".6"/>
+    <path d="M70 34 Q74 28 70 22 Q66 26 70 34Z" fill="#ff3300" opacity=".6"/>
+  </svg>`,
+
+  galaxy:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="40" r="32" fill="#2a0880"/>
+    <circle cx="40" cy="40" r="32" fill="#7030e0" opacity=".45"/>
+    <ellipse cx="40" cy="40" rx="32" ry="32" fill="url(#gal)" opacity=".3"/>
+    <defs><radialGradient id="gal"><stop offset="0%" stop-color="#c080ff"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+    <path d="M20 36 Q24 27 33 31 Q28 36 21 38" stroke="#ffffff18" stroke-width="2.5" fill="none"/>
+    <path d="M38 20 Q46 16 52 24 Q47 29 40 27" stroke="#ffffff18" stroke-width="2.5" fill="none"/>
+    <circle cx="14" cy="19" r="2.5" fill="white" opacity=".8"/>
+    <circle cx="66" cy="17" r="1.8" fill="white" opacity=".7"/>
+    <circle cx="69" cy="57" r="2.5" fill="white" opacity=".8"/>
+    <circle cx="40" cy="7" r="3" fill="white" opacity=".9"/>
+    <circle cx="18" cy="62" r="1.5" fill="white" opacity=".6"/>
+    <ellipse cx="29" cy="42" rx="6.5" ry="6.5" fill="#ffffff20"/>
+    <ellipse cx="51" cy="42" rx="6.5" ry="6.5" fill="#ffffff20"/>
+    <circle cx="29" cy="42" r="4" fill="white" opacity=".9"/>
+    <circle cx="51" cy="42" r="4" fill="white" opacity=".9"/>
+    <circle cx="29" cy="42" r="2" fill="#6020c0"/>
+    <circle cx="51" cy="42" r="2" fill="#6020c0"/>
+    <circle cx="27.5" cy="40.5" r="1" fill="white" opacity=".6"/>
+    <circle cx="49.5" cy="40.5" r="1" fill="white" opacity=".6"/>
+  </svg>`,
+
+  sobheart:`<svg width="60" height="60" viewBox="0 0 80 80" fill="none">
+    <circle cx="40" cy="38" r="30" fill="#ffd966"/>
+    <ellipse cx="27" cy="34" rx="5.5" ry="6" fill="#1a0e00" opacity=".85"/>
+    <ellipse cx="53" cy="34" rx="5.5" ry="6" fill="#1a0e00" opacity=".85"/>
+    <path d="M27 44 Q40 56 53 44" stroke="#1a0e00" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M20 34 Q10 28 8 20" stroke="#7ecfff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="7" cy="19" rx="3" ry="4" fill="#7ecfff" opacity=".9"/>
+    <path d="M60 34 Q70 28 72 20" stroke="#7ecfff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="73" cy="19" rx="3" ry="4" fill="#7ecfff" opacity=".9"/>
+    <path d="M40 16 C40 16 32 10 30 16 C28 21 34 26 40 31 C46 26 52 21 50 16 C48 10 40 16 40 16Z" fill="#f0b429" opacity=".9"/>
+    <path d="M34 12 Q37 9 40 12" stroke="#e8a010" stroke-width="1" fill="none" opacity=".6"/>
+  </svg>`
+};
+
+/* ═══════════════ DATA ═══════════════ */
+const popData=[
+  {emoji:'skull', text:'...really?', sub:'ok. noted. moving on then.'},
+  {emoji:'melt',  text:'bro.',       sub:'this is not going how i planned at all.'},
+  {emoji:'cry',   text:'i— what?',   sub:'i spent three days on this page btw. THREE.'},
+  {emoji:'sfcry', text:'even the flower is crying.', sub:'look at it. LOOK. AT. IT.'},
+  {emoji:'plead', text:'please.',    sub:'i am literally on one knee rn. emotionally.'},
+  {emoji:'facepalm',text:'this is embarrassing.', sub:'for me. i made a whole cinematic website.'},
+  {emoji:'shrug', text:'fine. whatever.', sub:"i'll just go with my cousin. it's totally fine. (it's not fine.)"},
+  {emoji:'rage',  text:'ALRIGHT BET.', sub:"i didn't wanna go anyway. (i very much did.)"},
+  {emoji:'galaxy',text:'new theory:', sub:"you keep pressing no just to see what happens next."},
+  {emoji:'sobheart',text:"last time. for real.", sub:"the sunflower says please. look at those little petals."},
+];
+
+let noCount=0;
+let activeCutscene=null;
+let cutsceneTimer=null;
+
+function sayNo(){
+  noCount++;
+  const d=popData[Math.min(noCount-1,popData.length-1)];
+  document.getElementById('popupEmoji').innerHTML=E[d.emoji]||'';
+  document.getElementById('popupText').textContent=d.text;
+  document.getElementById('popupSub').textContent=d.sub;
+  document.getElementById('popupOverlay').classList.add('show');
+
+  // YES grows, NO shrinks
+  const yes=document.getElementById('btnYes');
+  const no=document.getElementById('btnNo');
+  const grow=Math.min(1+noCount*.3,3.5);
+  yes.style.fontSize=(1.35*grow)+'rem';
+  yes.style.padding=Math.min(22*grow,42)+'px '+Math.min(36*grow,64)+'px';
+  const shrink=Math.max(1-noCount*.12,.2);
+  no.style.fontSize=(12*shrink)+'px';
+  no.style.opacity=Math.max(1-noCount*.09,.08);
+  no.style.padding=(15*shrink)+'px '+(28*shrink)+'px';
+  if(noCount>=9) no.style.pointerEvents='none';
+
+  // Arrows appear at 7 no's
+  if(noCount>=7){
+    document.getElementById('arrowL').classList.add('show');
+    document.getElementById('arrowR').classList.add('show');
+  }
+
+  // Cutscenes
+  if(noCount===4)  setTimeout(()=>{closePopup();playCutscene1();},1100);
+  if(noCount===6)  setTimeout(()=>{closePopup();playCutscene2();},1100);
+  if(noCount===8)  setTimeout(()=>{closePopup();playCutscene3();},1100);
+  if(noCount===10) setTimeout(()=>{closePopup();playCutscene4();},1100);
+}
+
+function closePopup(){
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+/* ═══════ CUTSCENE HELPERS ═══════ */
+function closeCutscene(id){
+  const cs=document.getElementById(id);
+  cs.classList.remove('active');
+  activeCutscene=null;
+  if(cutsceneTimer){clearTimeout(cutsceneTimer);cutsceneTimer=null;}
+}
+
+function skipCutscene(id){
+  closeCutscene(id);
+  // Clean up cs2 state
+  if(id==='cs2'){
+    document.getElementById('cs2Portrait').classList.remove('in');
+    document.getElementById('cs2Box').classList.remove('in');
+    document.getElementById('cs2Text').textContent='';
+  }
+  if(id==='cs3'){document.getElementById('cs3Center').style.opacity='0';}
+}
+
+/* ═══════ CUTSCENE 1: Dramatic Zoom (4th No) ═══════ */
+function playCutscene1(){
+  const cs=document.getElementById('cs1');
+  cs.classList.add('active');
+  activeCutscene='cs1';
+  // ring pulse
+  const rings=document.getElementById('cs1Rings');rings.innerHTML='';
+  [0,0.3,0.6,0.9,1.2].forEach((d,i)=>{
+    const r=document.createElement('div');r.className='cs1-ring';
+    r.style.cssText=`width:${160+i*40}px;height:${160+i*40}px;animation-delay:${d}s;`;
+    rings.appendChild(r);
+  });
+  cutsceneTimer=setTimeout(()=>closeCutscene('cs1'),4200);
+}
+
+/* ═══════ CUTSCENE 2: Typewriter (6th No) ═══════ */
+function playCutscene2(){
+  const cs=document.getElementById('cs2');
+  const portrait=document.getElementById('cs2Portrait');
+  const box=document.getElementById('cs2Box');
+  const textEl=document.getElementById('cs2Text');
+  portrait.classList.remove('in');box.classList.remove('in');textEl.textContent='';
+  cs.classList.add('active');
+  activeCutscene='cs2';
+  setTimeout(()=>portrait.classList.add('in'),200);
+  setTimeout(()=>box.classList.add('in'),550);
+  const lines=[
+    "ok look.",
+    "i picked sunflowers because they always turn toward the sun.",
+    "and i kinda... always wanna be where you are.",
+    "that's all.",
+    "just say yes, man."
+  ];
+  let li=0,ci=0;
+  function type(){
+    if(li>=lines.length){
+      cutsceneTimer=setTimeout(()=>{
+        closeCutscene('cs2');
+        portrait.classList.remove('in');
+        box.classList.remove('in');
+        textEl.textContent='';
+      },1800);
+      return;
+    }
+    if(ci<lines[li].length){
+      textEl.textContent+=lines[li][ci];ci++;
+      setTimeout(type,38+Math.random()*30);
+    } else {
+      li++;ci=0;
+      if(li<lines.length) setTimeout(()=>{textEl.textContent='';type();},1000);
+      else type();
+    }
+  }
+  setTimeout(type,800);
+  // failsafe
+  setTimeout(()=>{if(activeCutscene==='cs2')closeCutscene('cs2');},14000);
+}
+
+/* ═══════ CUTSCENE 3: Word Chaos (8th No) ═══════ */
+function playCutscene3(){
+  const cs=document.getElementById('cs3');
+  cs.classList.add('active');
+  activeCutscene='cs3';
+  const words=['YES','PLEASE','PROM','GO','WITH','ME','SUNFLOWER','COME ON','JUST','SAY','YES','HELLO??','PROM??'];
+  const container=document.getElementById('cs3Words');container.innerHTML='';
+  words.forEach((w)=>{
+    const el=document.createElement('div');el.className='cs3-word';el.textContent=w;
+    el.style.cssText=`left:${Math.random()*82+2}%;top:${Math.random()*82+2}%;font-size:${2+Math.random()*6}rem;opacity:${.018+Math.random()*.065};`;
+    container.appendChild(el);
+  });
+  const center=document.getElementById('cs3Center');
+  center.style.opacity='0';
+  setTimeout(()=>center.style.opacity='1',200);
+  cutsceneTimer=setTimeout(()=>{closeCutscene('cs3');center.style.opacity='0';},4200);
+}
+
+/* ═══════ CUTSCENE 4: Slow Burn (10th No) ═══════ */
+function playCutscene4(){
+  const cs=document.getElementById('cs4');
+  cs.classList.add('active');
+  activeCutscene='cs4';
+  cutsceneTimer=setTimeout(()=>closeCutscene('cs4'),5000);
+}
+
+/* ═══════════════ SUCCESS ═══════════════ */
+function sayYes(){
+  const s=document.getElementById('success');
+  s.classList.add('show');
+  fireAura();
+  setTimeout(()=>document.getElementById('sFlower').classList.add('in'),100);
+  setTimeout(()=>document.getElementById('sTag').classList.add('in'),320);
+  setTimeout(()=>document.getElementById('sl0').classList.add('in'),500);
+  setTimeout(()=>document.getElementById('sl1').classList.add('in'),700);
+  setTimeout(()=>document.getElementById('sl2').classList.add('in'),960);
+  setTimeout(()=>document.getElementById('sCaption').classList.add('in'),1400);
+  setTimeout(buildOrbits,250);
+  loopSparkles();
+  confettiBurst();petalBurst();
+  setTimeout(confettiBurst,700);setTimeout(petalBurst,1400);
+  setTimeout(confettiBurst,2000);setTimeout(petalBurst,2800);
+  setTimeout(confettiBurst,3500);
+}
+
+function fireAura(){
+  const c=document.getElementById('auraContainer');c.innerHTML='';
+  [{col:'#f0b42995',d:0},{col:'#ffd96668',d:.5},{col:'#b8720a55',d:1},{col:'#f0b42938',d:1.5},{col:'#ffe57625',d:2},{col:'#f0b42912',d:2.5}]
+    .forEach(r=>{
+      const el=document.createElement('div');el.className='aura-ring';
+      el.style.cssText=`width:280px;height:280px;border:1px solid ${r.col};animation-delay:${r.d}s`;
+      el.classList.add('fire');c.appendChild(el);
+    });
+}
+
+function buildOrbits(){
+  const w=document.getElementById('orbitWrap');w.innerHTML='';
+  [{r:120,n:6,spd:'10s',sz:'7px',c:'#f0b42990'},{r:175,n:9,spd:'17s',sz:'3.5px',c:'#ffd96660'},
+   {r:230,n:5,spd:'8s',sz:'9px',c:'#f0b42948'},{r:295,n:13,spd:'24s',sz:'2.5px',c:'#b8720a48'},
+   {r:365,n:7,spd:'13s',sz:'6px',c:'#f0b42932'},{r:440,n:16,spd:'32s',sz:'2px',c:'#ffd96625'}]
+    .forEach(ring=>{
+      for(let i=0;i<ring.n;i++){
+        const d=document.createElement('div');d.className='orbit-dot';
+        d.style.setProperty('--r',ring.r+'px');d.style.setProperty('--s',ring.sz);
+        d.style.setProperty('--c',ring.c);d.style.setProperty('--spd',ring.spd);
+        d.style.setProperty('--start',(360/ring.n*i)+'deg');w.appendChild(d);
+      }
+    });
+}
+
+function loopSparkles(){
+  if(!document.getElementById('success').classList.contains('show'))return;
+  const field=document.getElementById('sparkleField');field.innerHTML='';
+  const glyphs=['✦','✧','⋆','·','✺','✿','❋','◆','★','❀','✾','⊹'];
+  const colors=['#f0b429','#ffd966','#ffe576','#fff8d0','#b8720a','#ffffff','#ffe080'];
+  for(let i=0;i<40;i++){
+    const sp=document.createElement('div');sp.className='sparkle';
+    sp.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    sp.style.setProperty('--tx',(Math.random()*520-260)+'px');
+    sp.style.setProperty('--ty',(Math.random()*520-260)+'px');
+    sp.style.setProperty('--r',(Math.random()*360)+'deg');
+    sp.style.setProperty('--dur',(1.5+Math.random()*3)+'s');
+    sp.style.setProperty('--del',(Math.random()*2.5)+'s');
+    sp.style.fontSize=(.6+Math.random()*1.8)+'rem';
+    sp.style.color=colors[Math.floor(Math.random()*colors.length)];
+    sp.style.left='50%';sp.style.top='40%';sp.style.position='absolute';
+    field.appendChild(sp);
+    sp.addEventListener('animationend',()=>sp.remove());
+  }
+  setTimeout(loopSparkles,2800);
+}
+
+function confettiBurst(){
+  const cols=['#f0b429','#ffd966','#ffe576','#b8720a','#fff8d0','#183318','#2a5c2a','#fff','#e8a010','#ffe080','#f5c430'];
+  for(let i=0;i<110;i++){
+    const c=document.createElement('div');c.className='conf';
+    c.style.left=Math.random()*100+'vw';c.style.top='-18px';
+    c.style.background=cols[Math.floor(Math.random()*cols.length)];
+    c.style.setProperty('--cr',(Math.random()*1200-600)+'deg');
+    c.style.setProperty('--cx',(Math.random()*280-140)+'px');
+    c.style.setProperty('--cs',(0.3+Math.random()*.8).toString());
+    c.style.setProperty('--dur',(2.5+Math.random()*4)+'s');
+    c.style.setProperty('--del',(Math.random()*.9)+'s');
+    c.style.borderRadius=Math.random()>.5?'50%':'3px';
+    const sz=3+Math.random()*12;c.style.width=sz+'px';c.style.height=sz+'px';
+    document.body.appendChild(c);setTimeout(()=>c.remove(),7000);
+  }
+}
+
+function petalBurst(){
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');p.className='fpetal';
+    p.style.left=Math.random()*100+'vw';p.style.top='-30px';
+    p.style.setProperty('--px',(Math.random()*200-100)+'px');
+    p.style.setProperty('--pr',(Math.random()*800-400)+'deg');
+    p.style.setProperty('--pd',(3+Math.random()*5)+'s');
+    p.style.setProperty('--pdel',(Math.random()*2)+'s');
+    const sz=10+Math.random()*20;
+    p.innerHTML=`<svg width="${sz}" height="${sz*1.6}" viewBox="0 0 16 26" fill="none"><ellipse cx="8" cy="13" rx="6.5" ry="12" fill="#f0b429" opacity="${.4+Math.random()*.5}"/><ellipse cx="8" cy="11" rx="3.5" ry="7" fill="#ffd966" opacity=".4"/></svg>`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),10000);
+  }
+}
+</script>
+</body>
+</html>
