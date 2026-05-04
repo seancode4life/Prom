@@ -933,7 +933,7 @@ function playCutscene2(){
   setTimeout(()=>box.classList.add('in'),550);
   const lines=[
     "ok look.",
-    "i picked sunflowers because they always turn toward the sun.",
+    "i picked sunflowers because they you said yellow was ur favorite, and idk any other flowers that are yellow",
     "and i kinda... always wanna be where you are.",
     "that's all.",
     "just say yes, man."
@@ -968,7 +968,7 @@ function playCutscene3(){
   const cs=document.getElementById('cs3');
   cs.classList.add('active');
   activeCutscene='cs3';
-  const words=['YES','PLEASE','PROM','GO','WITH','ME','SUNFLOWER','COME ON','JUST','SAY','YES','HELLO??','PROM??'];
+  const words=['YES','PLEASE','PROM','GO','WITH','ME','.','COME ON','JUST','SAY','YES','HELLO??','PROM??'];
   const container=document.getElementById('cs3Words');container.innerHTML='';
   words.forEach((w)=>{
     const el=document.createElement('div');el.className='cs3-word';el.textContent=w;
